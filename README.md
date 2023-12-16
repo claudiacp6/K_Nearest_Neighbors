@@ -83,3 +83,47 @@ Esse método é utilizado no método predict antes de fazer previsões, caso a o
 
 # Exemplo de Aplicação Prática
 
+Neste exemplo serão criados dados exemplo para um problema de classificação binária. 
+São gerados números aleatórios pela função np.random-seed(42). Posteriormente é gerada uma matriz de números entre 0 e 1, com dimensões 100x2, onde cada linha representa um exemplo e cada coluna representa uma caracterísitica.
+
+
+
+
+       np.random.seed(42)
+       X_train = np.random.rand(100, 2)
+       y_train = (X_train[:, 0] + X_train[:, 1] > 1).astype(int)
+
+       X_test = np.random.rand(20, 2)
+       y_test = (X_test[:, 0] + X_test[:, 1] > 1).astype(int)
+
+
+*y_train = (X_train[:, 0] + X_train[:, 1] > 1).astype(int)*: Calcula a soma dos elementos em cada linha de X_train e verifica se essa soma é maior que 1. O resultado é um array booleano, que é então convertido para inteiros (0 ou 1) usando astype(int). Isso cria os rótulos de classe binária com base na condição mencionada.
+
+O modelo com os dados criados é treinado com a função *fit* e as previsões são geradas e armazenadas na variável predictions.
+
+       knn = KNN(k=3)
+       knn.fit(X_train, y_train)
+
+       predictions = knn.predict(X_test)
+
+Para a visualização gráfica: 
+
+
+       plt.figure(figsize=(10, 6))
+
+       plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=plt.cm.Paired, edgecolor='k', marker='o', label='Treinamento')
+
+       correct_predictions = predictions == y_test
+       incorrect_predictions = ~correct_predictions
+
+       plt.scatter(X_test[correct_predictions, 0], X_test[correct_predictions, 1], c='green', marker='^', s=100, label='Previsão Correta')
+       plt.scatter(X_test[incorrect_predictions, 0], X_test[incorrect_predictions, 1], c='red', marker='v', s=100, label='Previsão Incorreta')
+
+
+Em resumo, este código cria uma visualização que mostra os pontos de treino coloridos de acordo com as classes, e os pontos de teste são marcados de forma diferente dependendo se as previsões do modelo foram corretas ou incorretas. A legenda ajuda a distinguir entre os pontos de previsões corretas e incorretas. Isso é útil para avaliar visualmente o desempenho do modelo k-NN nos dados de teste.
+
+![image](https://github.com/claudiacp6/K_Nearest_Neighbors/assets/147619731/4a7090dd-e8f7-4fad-8309-29c3acf27415)
+
+
+
+
