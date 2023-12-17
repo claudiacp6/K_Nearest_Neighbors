@@ -64,7 +64,7 @@ Código utilizado contém:
 
    - **Retorno das Previsões**: As previsões são retornadas como um array NumPy.
 
-## *4. Método normalize_data*
+## *4. Normalização dos dados*
   É utilizado para normalizar os dados, se a opção de normalização estiver ativada (self.normalize == True). Normalização é um processo comum em algoritmos de Machine Learning, onde os valores das características (features) são ajustados para garantir que estejam na mesma escala.
 
        def normalize_data(self, data):
@@ -99,7 +99,7 @@ São gerados números aleatórios pela função np.random-seed(42). Posteriormen
 
 *y_train = (X_train[:, 0] + X_train[:, 1] > 1).astype(int)*: Calcula a soma dos elementos em cada linha de X_train e verifica se essa soma é maior que 1. O resultado é um array booleano, que é então convertido para inteiros (0 ou 1) usando astype(int). Isso cria os rótulos de classe binária com base na condição mencionada.
 
-O modelo com os dados criados é treinado com a função *fit* e as previsões são geradas e armazenadas na variável predictions.
+O modelo com os dados criados é treinado com a função *fit* e as previsões são geradas e armazenadas na variável predictions, com K=3.
 
        knn = KNN(k=3)
        knn.fit(X_train, y_train)
