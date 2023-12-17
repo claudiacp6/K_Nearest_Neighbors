@@ -4,7 +4,7 @@
 # 1. Código de inicialização na classe KNN;
 # 2. Função fit;
 # 3. Método Predict;
-# 4. Método normalize_data.
+# 4. Normalização dos dados.
 
 import numpy as np
 
