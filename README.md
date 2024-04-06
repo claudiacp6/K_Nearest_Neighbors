@@ -1,12 +1,12 @@
 #  K-Nearest Neighbors (kNN)
 
-O KNN, ou "k-Nearest Neighbors", é um algoritmo utilizado tanto para classificação como para regressão. Ele é conhecido como um método de aprendizado baseado em instância ou método preguiçoso (lazy) porque não tenta construir um modelo explícito durante a fase de treinamento. Em vez disso, ele memoriza os exemplos de treinamento e faz previsões com base na proximidade (similaridade) dos novos exemplos aos exemplos existentes.
+The KNN, or "k-Nearest Neighbors," is an algorithm used for both classification and regression. It is known as an instance-based learning method or lazy learning method because it does not attempt to build an explicit model during the training phase. Instead, it memorizes the training examples and makes predictions based on the proximity (similarity) of the new examples to the existing examples.
 
-A ideia básica do k-NN é que os exemplos em um espaço de características semelhantes tendem a ter rótulos semelhantes. Ou seja, ao prever o rótulo de um novo exemplo, o algoritmo olha para os k exemplos de treinamento mais próximos a ele no espaço de características e atribui ao novo exemplo a classe mais comum entre esses k vizinhos.  
+The basic idea of k-NN is that examples in a similar feature space tend to have similar labels. That is, when predicting the label of a new example, the algorithm looks at the k nearest training examples to it in the feature space and assigns the most common class among these k neighbors to the new example.
 
-Este trabalho desenvolve um código de Python "from scratch" e está dividido em 4 partes.
+This work develops a Python code "from scratch" and is divided into 4 parts.
 
-## *1. Código de inicialização na classe KNN*
+## *1. Initialization Code in the KNN class*
 
        def __init__(self, k=3, normalize=False):
         self.k = k
@@ -14,27 +14,29 @@ Este trabalho desenvolve um código de Python "from scratch" e está dividido em
         self.X_train = None
         self.y_train = None
    
-Com a função __init__ são definidos 3 parâmetros: 
-  - **k**: Número de vizinhos mais próximos a serem considerados pelo algoritmo k-NN (o padrão é 3).
-  - **Normalize**: Um bool que indica se os dados devem ser normalizados ou não (o padrão é False).
-  - **Atributos**: O método __init__ inicializa alguns atributos da instância da classe com valores None.
+The init function defines 3 parameters:
 
-## *2. Função fit*
-  É um método que é comumente usado em algoritmos de aprendizado de máquina para treinar o modelo com base nos dados de treinamento fornecidos. No contexto do k-NN (k-Nearest Neighbors), o método fit é responsável por armazenar os dados de treinamento na instância do objeto para que possam ser usados posteriormente para fazer previsões.
-   
+ -**k**: Number of nearest neighbors to be considered by the k-NN algorithm (default is 3).
+ -**Normalize**: A bool indicating whether the data should be normalized or not (default is False).
+ -**Attributes**: The init method initializes some instance attributes with None values.
+
+
+## *2. Fit Function*
+ It is a method commonly used in machine learning algorithms to train the model based on the provided training data. In the context of k-NN (k-Nearest Neighbors), the fit method is responsible for storing the training data in the object instance so that it can be used later for making predictions.
+ 
        def fit(self, X_train, y_train):
         self.X_train = X_train
         self.y_train = y_train
    
-  Onde:
-   - **x_train**: É o conjunto de dados de treinamento, contendo as características (features) dos exemplos de treinamento. Cada linha representa um exemplo, e cada coluna representa uma característica.
-   - **y_train**: São os rótulos correspondentes aos exemplos de treinamento em X_train. Cada rótulo é associado a um exemplo específico e indica a classe ou o valor que o modelo deve aprender.
+  Where:
+   - **x_train**: Is the training data set, containing the features of the training examples. Each row represents an example, and each column represents a feature.
+   - **y_train**: Are the labels corresponding to the training examples in X_train. Each label is associated with a specific example and indicates the class or value that the model should learn.
 
-Dentro do método fit, os dados de treinamento (X_train e y_train) são simplesmente armazenados nos atributos da instância self.X_train e self.y_train. Isso significa que, após chamar o método fit, a instância da classe terá acesso aos dados de treinamento, e o modelo poderá ser treinado com base nesses dados.
+Inside the fit method, the training data (X_train and y_train) is simply stored in the instance attributes self.X_train and self.y_train. This means that after calling the fit method, the class instance will have access to the training data, and the model can be trained based on this data.
 
-## *3. Método Predict*
-  É responsável por fazer previsões com base nos dados de teste fornecidos. 
-    - X_test: São os dados de teste nos quais serão feitas as previsões.
+## *3. Predict Method*
+It is responsible for making predictions based on the provided test data.
+    - X_test: Are the test data on which predictions will be made.
 
           def predict(self, X_test):
             if self.normalize:
@@ -49,42 +51,44 @@ Dentro do método fit, os dados de treinamento (X_train e y_train) são simplesm
              predictions.append(predicted_label)
           return np.array(predictions)
         
-Código utilizado contém:
-   - **Normalização** (se necessário): Se o atributo normalize for True, os dados de teste (X_test) são normalizados usando a função normalize_data antes de fazer previsões. Isso garante que os dados de teste sejam processados da mesma maneira que os dados de treinamento.
+The code used contains:
 
-   - **Cálculo das Distâncias**: Para cada exemplo em X_test, a distância é calculada em relação a todos os exemplos de treinamento em X_train. A função np.linalg.norm é usada para calcular a distância euclidiana.
+  -**Normalization** (if necessary): If the normalize attribute is True, the test data (X_test) is normalized using the normalize_data function before making predictions. This ensures that the test data is processed in the same way as the training data.
 
-   - **Identificação dos Vizinhos Mais Próximos**: Os índices dos k vizinhos mais próximos são obtidos usando argsort para ordenar as distâncias e selecionar os k primeiros índices.
+  -**Distance Calculation**: For each example in X_test, the distance is calculated with respect to all training examples in X_train. The np.linalg.norm function is used to calculate the Euclidean distance.
 
-   - **Contagem dos Rótulos**: Conta-se a ocorrência de cada rótulo nos k vizinhos mais próximos.
+  -**Identification of Nearest Neighbors**: The indices of the k nearest neighbors are obtained using argsort to sort the distances and select the first k indices.
 
-   - **Atribuição do Rótulo Predito**: O rótulo predito é determinado pelo rótulo mais comum entre os k vizinhos mais próximos.
+  -**Counting the Labels**: The occurrence of each label in the k nearest neighbors is counted.
 
-   - **Armazenamento das Previsões**: As previsões são armazenadas na lista predictions.
+  -**Assignment of Predicted Label**: The predicted label is determined by the most common label among the k nearest neighbors.
 
-   - **Retorno das Previsões**: As previsões são retornadas como um array NumPy.
+  -**Storage of Predictions**: The predictions are stored in the predictions list.
 
-## *4. Normalização dos dados*
-  É utilizado para normalizar os dados, se a opção de normalização estiver ativada (self.normalize == True). Normalização é um processo comum em algoritmos de Machine Learning, onde os valores das características (features) são ajustados para garantir que estejam na mesma escala.
+  -**Return of Predictions**: The predictions are returned as a NumPy array.
+
+## *4. Data Normalization*
+  It is used to normalize the data if the normalization option (self.normalize == True) is activated. Normalization is a common process in machine learning algorithms, where feature values are adjusted to ensure they are on the same scale.
 
        def normalize_data(self, data):
          min_vals = np.min(data, axis=0)
          max_vals = np.max(data, axis=0)
          return (data - min_vals) / (max_vals - min_vals)
 
-  Normalização dos dados incluí:
-   - **Cálculo dos Mínimos e Máximos**: Para cada coluna (característica) em data, np.min e np.max são usados para calcular os valores mínimos e máximos.
+Data normalization includes:
 
-   - **Normalização**: Cada valor em data é normalizado subtraindo o valor mínimo da coluna correspondente e dividindo pelo intervalo (diferença entre o máximo e o mínimo).
+  -**Calculation of Minimums and Maximums**: For each column (feature) in data, np.min and np.max are used to calculate the minimum and maximum values.
 
-  - **Retorno dos Dados Normalizados**: Os dados normalizados são retornados pela função.
+  -**Normalization**: Each value in data is normalized by subtracting the minimum value from the corresponding column and dividing by the range (difference between the maximum and minimum).
 
-Esse método é utilizado no método predict antes de fazer previsões, caso a opção de normalização (self.normalize) esteja ativada.
+  -**Return of Normalized Data**: The normalized data is returned by the function.
 
-# Exemplo de Aplicação Prática
+This method is used in the predict method before making predictions, if the normalization option (self.normalize) is activated.
 
-Neste exemplo serão criados dados exemplo para um problema de classificação binária. 
-São gerados números aleatórios pela função np.random-seed(42). Posteriormente é gerada uma matriz de números entre 0 e 1, com dimensões 100x2, onde cada linha representa um exemplo e cada coluna representa uma caracterísitica.
+# Example of Practical Application
+
+In this example, example data is created for a binary classification problem.
+Random numbers are generated by the np.random-seed(42) function. Later, a matrix of numbers between 0 and 1 is generated, with dimensions 100x2, where each row represents an example and each column represents a feature.
 
 
 
@@ -97,16 +101,16 @@ São gerados números aleatórios pela função np.random-seed(42). Posteriormen
        y_test = (X_test[:, 0] + X_test[:, 1] > 1).astype(int)
 
 
-*y_train = (X_train[:, 0] + X_train[:, 1] > 1).astype(int)*: Calcula a soma dos elementos em cada linha de X_train e verifica se essa soma é maior que 1. O resultado é um array booleano, que é então convertido para inteiros (0 ou 1) usando astype(int). Isso cria os rótulos de classe binária com base na condição mencionada.
+*y_train = (X_train[:, 0] + X_train[:, 1] > 1).astype(int)*: Calculates the sum of the elements in each row of X_train and checks if this sum is greater than 1. The result is a boolean array, which is then converted to integers (0 or 1) using astype(int). This creates the binary class labels based on the mentioned condition.
 
-O modelo com os dados criados é treinado com a função *fit* e as previsões são geradas e armazenadas na variável predictions, com K=3.
+The model with the created data is trained with the fit function and the predictions are generated and stored in the variable predictions, with K=3.
 
        knn = KNN(k=3)
        knn.fit(X_train, y_train)
 
        predictions = knn.predict(X_test)
 
-Para a visualização gráfica: 
+For graphical visualization:
 
 
        plt.figure(figsize=(10, 6))
@@ -120,7 +124,7 @@ Para a visualização gráfica:
        plt.scatter(X_test[incorrect_predictions, 0], X_test[incorrect_predictions, 1], c='red', marker='v', s=100, label='Previsão Incorreta')
 
 
-Em resumo, este código cria uma visualização que mostra os pontos de treino coloridos de acordo com as classes, e os pontos de teste são marcados de forma diferente dependendo se as previsões do modelo foram corretas ou incorretas. A legenda ajuda a distinguir entre os pontos de previsões corretas e incorretas. Isso é útil para avaliar visualmente o desempenho do modelo k-NN nos dados de teste.
+In summary, this code creates a visualization that shows the training points colored according to the classes, and the test points are marked differently depending on whether the model's predictions were correct or incorrect. The legend helps distinguish between correct and incorrect prediction points. This is useful for visually evaluating the performance of the k-NN model on the test data.
 
 ![image](https://github.com/claudiacp6/K_Nearest_Neighbors/assets/147619731/4a7090dd-e8f7-4fad-8309-29c3acf27415)
 
